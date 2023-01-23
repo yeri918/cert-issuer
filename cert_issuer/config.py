@@ -113,6 +113,7 @@ def add_arguments(p):
 
 
 def get_config():
+    logging.info("*** FROM CONFIG.PY")
     configure_logger()
     p = configargparse.getArgumentParser(default_config_files=[os.path.join(PATH, 'conf.ini'),
                                                                '/etc/cert-issuer/conf.ini'])

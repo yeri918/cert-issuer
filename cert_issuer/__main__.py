@@ -2,6 +2,7 @@
 
 import os.path
 import sys
+import logging
 
 PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -18,4 +19,5 @@ def cert_issuer_main(args=None):
 
 
 if __name__ == '__main__':
+    # logging.info('*** FROM __main__.py')
     cert_issuer_main()

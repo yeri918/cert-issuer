@@ -14,6 +14,7 @@ class EthereumTransactionCreator(object):
         pass
 
     def create_transaction(self, tx_cost_constants, issuing_address, nonce, to_address, blockchain_bytes):
+        # logging.info(issuing_address, nonce, to_address, blockchain_bytes)
         gasprice = tx_cost_constants.get_gas_price()
         gaslimit = tx_cost_constants.get_gas_limit()
 
@@ -56,6 +57,7 @@ class EthereumTransactionHandler(TransactionHandler):
 
     def issue_transaction(self, blockchain_bytes):
         eth_data_field = b2h(blockchain_bytes)
+        logging.info("*** eth_data_field: %s", eth_data_field)
         prepared_tx = self.create_transaction(blockchain_bytes)
         signed_tx = self.sign_transaction(prepared_tx)
         self.verify_transaction(signed_tx, eth_data_field)
@@ -68,6 +70,7 @@ class EthereumTransactionHandler(TransactionHandler):
             nonce = self.connector.get_address_nonce(self.issuing_address)
             # Transactions in the first iteration will be send to burn address
             toaddress = '0xdeaddeaddeaddeaddeaddeaddeaddeaddeaddead'
+            toaddress = '0x1d415BEFf60fe93405a31a301871af0aA3d3F678'
             tx = self.transaction_creator.create_transaction(self.tx_cost_constants, self.issuing_address, nonce,
                                                              toaddress, blockchain_bytes)
 
@@ -79,9 +82,10 @@ class EthereumTransactionHandler(TransactionHandler):
     def sign_transaction(self, prepared_tx):
         # stubbed from BitcoinTransactionHandler
         with FinalizableSigner(self.secret_manager) as signer:
+            logging.info("***")
             signed_tx = signer.sign_transaction(prepared_tx)
 
-        logging.info('signed Ethereum trx = %s', signed_tx)
+        logging.info('*** signed Ethereum trx = %s', signed_tx)
         return signed_tx
 
     def broadcast_transaction(self, signed_tx):

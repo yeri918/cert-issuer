@@ -92,6 +92,7 @@ class EthereumServiceProviderConnector(ServiceProviderConnector):
     def get_address_nonce(self, address):
         for m in self.get_providers_for_chain(self.ethereum_chain, self.local_node):
             try:
+                # logging.info("*** get_address_nonce")
                 logging.debug('m=%s', m)
                 nonce = m.get_address_nonce(address)
                 return nonce
